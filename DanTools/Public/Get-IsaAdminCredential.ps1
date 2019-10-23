@@ -14,25 +14,21 @@
     Text, der in der Abfrage der Credentials als Prompt angezeigt wird
 .PARAMETER userName
     Username, der verwendet werden soll (Default: Aktueller Benuter - $env:Username)
-.PARAMETER Scope
-    Scope, in dem die Variable (DOMAINadm) mit den Credentials angelegt werden sol
-.PARAMETER Force
-    Eine eventuell bestehende Variable wird gelöscht und das PW neu angefordert.
 .OUTPUTS
     System.Management.Automation.PSCredential
     Admin-Credential for the current user in the specified AD-Domain.
 .EXAMPLE
-    Get-IsaAdminCredential -Domainname WEB
-    Returns a credential for user <WEB\adm_CrrentUser>
+    Get-IsaAdminCredential -Domainname DOM1
+    Returns a credential for user <DOM1\adm_CrrentUser>
 .EXAMPLE
-    Get-IsaAdminCredential -Domainname WEB -message "Dies ist die Überschrift"
+    Get-IsaAdminCredential -Domainname DOM1 -message "Dies ist die Überschrift"
     Header für the Password prompt
 .EXAMPLE
-    Get-IsaAdminCredential -Domainname WKOE -userName "TheAdmin"
-    Returns a credential for user <WKOE\adm_TheAdmin> or if not cached prompts for it
+    Get-IsaAdminCredential -Domainname DOM2 -userName "TheAdmin"
+    Returns a credential for user <DOM2\adm_TheAdmin> or if not cached prompts for it
 .EXAMPLE
-    Get-IsaAdminCredential -Domainname WKOE -userName "TheAdmin" -Force
-    Prompts and returns credentials for user <WKOE\adm_TheAdmin>
+    Get-IsaAdminCredential -Domainname DOM2 -userName "TheAdmin" -Force
+    Prompts and returns credentials for user <DOM2\adm_TheAdmin>
 .EXAMPLE
     Get-IsaAdminCredential -Computername "server.DOM.something" -userName "TheAdmin" -Force
     Prompts and returs credentials for user <DOM\adm_TheAdmin>, stores the Credentuals in a variable
@@ -44,11 +40,22 @@ function Get-IsaAdminCredential {
         [string] $DomainName = $env:USERDOMAIN,
         [string] $Message,
         [string] $UserName = $env:USERNAME,
+        [parameter(ParameterSetName='ComputerName',Mandatory=$true)]
+        [string] $ComputerName
     )
     $admLoginName = "$DomainName\adm_$($UserName)"
     if ( ($null -eq $Message) -or ($Message -eq '') ) {
         $Message = 'Please enter your password'
     }
     $cred = Get-Credential -UserName $admLoginName -Message $Message
-    $cred
+    if ( $ComputerName -ne '' ) {
+        $answer = Invoke-Command -ComputerName $ComputerName -Credential $cred -ScriptBlock { "huihui" }
+        if ( $answer -eq 'huihui' ) {
+            $cred
+        } else {
+            Write-Warning "invalid user or password"
+        }
+    } else {
+        $cred
+    }
 }
