@@ -43,7 +43,7 @@ function Get-IsaAdminCredential {
     param (
         [string] $DomainName = $env:USERDOMAIN,
         [string] $Message,
-        [string] $UserName = $env:USERNAME,
+        [string] $UserName = $env:USERNAME
     )
     $admLoginName = "$DomainName\adm_$($UserName)"
     if ( ($null -eq $Message) -or ($Message -eq '') ) {
