@@ -1,10 +1,11 @@
 <#
 .SYNOPSIS
-Checks database users (coming from Get-DbaDBUsers) are still valid
+Tests if database users (coming from Get-DbaDBUsers) are in a "ok"-List, returns the a checked validation list
 
 .DESCRIPTION
-Based on a definition list (Instance, DB, Account) alle Windows-Logins are checked if the still should be allowed to access a database.
-A list is returned and each inpu user object receives a flag "IsValid" to indicate that this account was found based on the conditions of the validation list.
+Based on a definition list (Instance, DB, Account) all Windows-Logins are checked if the still should be allowed to access a database.
+The validation list is returned with an additinal flag "IsValid". 
+This flag can be checked to recognize outdated defintion objects. "IsValid -eq $false" shows entries which do correspond to a user (anymore?).
 
 .PARAMETER DbUser
 List of user objects (like received from Get-DbaDbUser) to be validated. 
@@ -28,7 +29,8 @@ List of hashtable containing the definition of the valid instance/db/userlogin p
 
 .EXAMPLE
 $userList = Get-DbaDbUser -SqlInstance 'localhost:55555' -Database db1; $userChecked = Test-IsaDatabaseCredential -DBUser $userList -InstanceName 'Instance1' -Database 'db1' -AccountName 'DOMAIN\User11'
-$valid = $userChecked.Where({ $_.IsValid})
+$validDefintions = $userChecked.Where({ $_.IsValid })
+$outdatedDefintions = $userChecked.Where({ $_.IsValid -eq $false })
 Checks for the presence of just one user definition
 
 .EXAMPLE
@@ -43,7 +45,8 @@ Instance2;db1;DOMAIN\User3
 .NOTES
 General notes
 #>
-function Test-IsaDatabaseCredential {
+
+function Test-IsaDatabaseCredentialDefinition {
     [cmdletbinding()]
     param (
         [Parameter(Mandatory=$true,
@@ -83,27 +86,27 @@ function Test-IsaDatabaseCredential {
             $InputObject = [PSCustomObject]@{
                 InstanceName = $InstanceName
                 Database     = $Database
-                AccountName  = $AccountName                
+                AccountName  = $AccountName
             }
         }
+        $InputObject.ForEach( {Add-member -InputObject $_ -Name "IsValid" -Value $false -MemberType NoteProperty} )
     }
     PROCESS {
         foreach ($currDbUser in $DbUser) {
-            if ($null -eq $currDbUser.IsValid) { Add-member -InputObject $currDbUser -Name "IsValid" -Value $false -MemberType NoteProperty }
-            $currDbUser.IsValid = $false
             foreach ($obj in $InputObject) {
                 if ( $obj.Database -eq '*' ) {
                     if ( ($currDbUser.InstanceName -eq $obj.InstanceName) -and ($currDbUser.Login -eq $obj.AccountName) -and ($currDbUser.AuthenticationType -eq 'Windows') ) {
-                        $currDbUser.IsValid = $true
+                        $obj.IsValid = $true
                     }
                 } else {
                     if ( ($currDbUser.InstanceName -eq $obj.InstanceName) -and ($currDbUser.Database -eq $obj.Database) -and ($currDbUser.Login -eq $obj.AccountName) -and ($currDbUser.AuthenticationType -eq 'Windows') ) {
-                        $currDbUser.IsValid = $true
+                        $obj.IsValid = $true
                     }
                 }
             }
-            $currDbUser
         }
     }
-    END {}
+    END {
+        Write-Output $InputObject
+    }
 }
