@@ -1,6 +1,6 @@
 # . $PSScriptRoot\..\WWSpielwiese\Public\Test-IsaDatabaseCredentialDefinition.ps1
 Remove-Module -Name IsaWebSqlToolbox -Force -ErrorAction SilentlyContinue
-Import-Module $PSScriptRoot\..\..\IsaWebSqlToolbox\IsaWebSqlToolbox.psm1
+Import-Module $PSScriptRoot\..\..\DanTools\DanTools.psm1
 
 $dbUserList = @(
     [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'DOMAIN\User11';     AuthenticationType = 'Windows'   }
@@ -45,6 +45,28 @@ Describe 'Test-IsaDatabaseCredentialDefinition@DB: ' {
             $result = Test-IsaDatabaseCredentialDefinition -DbUser $dbUserSingle -InstanceName 'blibli' -Database 'db1' -AccountName 'DOMAIN\User11'
             $result.AccountName | Should -Be 'DOMAIN\User11'
             $result.Isvalid | Should -BeFalse
+        }
+    }
+    Context "über Input-Object prüfen" {
+        It "Check alle Attribute vorhanden" {
+            $zuPruefen = [PSCustomObject] @{ InstanceName = 'Instance1'; Database = 'db1'; AccountName = 'DOMAIN\User11' }
+            $result = Test-IsaDatabaseCredentialDefinition -DbUser $dbUserSingle -InputObject $zuPruefen
+            $result.AccountName | Should -Be 'DOMAIN\User11'
+            $result.Isvalid | Should -BeTrue
+        }
+        It "Check beliebige Datenbank soll OK sein" {
+            $zuPruefen = [PSCustomObject] @{ InstanceName = 'Instance1'; Database = '*'; AccountName = 'DOMAIN\User11' }
+            $result = Test-IsaDatabaseCredentialDefinition -DbUser $dbUserSingle -InputObject $zuPruefen
+            $result.AccountName | Should -Be 'DOMAIN\User11'
+            $result.Isvalid | Should -BeTrue
+        }
+    }
+    Context "über Liste von Input-Object prüfen" {
+        It "Check alle Attribute vorhanden: Single User" {
+            $zuPruefen = [PSCustomObject] @{ InstanceName = 'Instance1'; Database = 'db1'; AccountName = 'DOMAIN\User11' }
+            $result = Test-IsaDatabaseCredentialDefinition -DbUser $dbUserSingle -InputObject $zuPruefen
+            $result.AccountName | Should -Be 'DOMAIN\User11'
+            $result.Isvalid | Should -BeTrue
         }
     }
 }
