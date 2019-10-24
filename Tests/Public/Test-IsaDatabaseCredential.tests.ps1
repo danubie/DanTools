@@ -46,4 +46,18 @@ Describe 'Test-IsaDatabaseCredential@DB: ' {
             $result.Isvalid | Should -BeFalse
         }
     }
+    Context "über Input-Object prüfen" {
+        It "Check alle Attribute vorhanden" {
+            $zuPruefen = [PSCustomObject] @{ InstanceName = 'Instance1'; Database = 'db1'; AccountName = 'DOMAIN\User11' }
+            $result = Test-IsaDatabaseCredential -DbUser $dbUserSingle -InputObject $zuPruefen
+            $result.Login | Should -Be 'DOMAIN\User11'
+            $result.Isvalid | Should -BeTrue
+        }
+        It "Check beliebige Datenbank soll OK sein" {
+            $zuPruefen = [PSCustomObject] @{ InstanceName = 'Instance1'; Database = '*'; AccountName = 'DOMAIN\User11' }
+            $result = Test-IsaDatabaseCredential -DbUser $dbUserSingle -InputObject $zuPruefen
+            $result.Login | Should -Be 'DOMAIN\User11'
+            $result.Isvalid | Should -BeTrue
+        }
+    }
 }
