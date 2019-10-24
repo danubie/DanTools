@@ -1,5 +1,4 @@
-# . $PSScriptRoot\..\WWSpielwiese\Public\Test-IsaDatabaseCredential.ps1
-Remove-Module -Name IsaWebSqlToolbox -Force -ErrorAction SilentlyContinue
+Remove-Module -Name DanTools -Force -ErrorAction SilentlyContinue
 Import-Module $PSScriptRoot\..\..\DanTools\DanTools.psm1
 
 $dbUserList = @(
