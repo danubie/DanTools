@@ -1,5 +1,5 @@
-Remove-Module -Name IsaWebSqlToolbox -Force -ErrorAction SilentlyContinue
-Import-Module $PSScriptRoot\..\..\IsaWebSqlToolbox\IsaWebSqlToolbox.psm1
+Remove-Module -Name DanTools -Force -ErrorAction SilentlyContinue
+Import-Module $PSScriptRoot\..\..\DanTools\DanTools.psm1
 
 $dbUserList = @(
     [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'DOMAIN\User11';     AuthenticationType = 'Windows'   }
