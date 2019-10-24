@@ -1,28 +1,29 @@
 <#
 .SYNOPSIS
-    Gibt eine Kurzfassung der Hilfe eines Commandlets aus
+    Shows a short description of the command based help
     (c) 2018-2019 Wolfgang Wagner
 .DESCRIPTION
-    Es wird eine Art "get-help" einer zufällig ausgewählten Funktion od. Commandlet augegeben
+    This commandlet selects a random module and function. 
+    A part of the "ge-help" output of this selected function or cmdlet is the result of this script 
 .PARAMETER Module
-    Liste von Modulnamen, die durchsucht werden sollen (Default: alle Module)
+    List of modulenames to be used for selecting the randomized function (default: all modules) 
 .PARAMETER CommandType
-    Was soll ausgewählt werden: CmdLets, Functions, Workflows, ... siehe Hilfe von Get-Command
+    Type of what should be selected: CmdLets, Functions, Workflows, ... see help of Get-Command
     Default: Cmdlet, Function
 .OUTPUTS
-    Excerpt der Hilfe eines Commands (mit Write-Host)
+    Excerpt of the command based help of the selected command (mit Write-Host)
 .EXAMPLE
     Show-CmdletOfTheDay
-    Zeigt ein Command aus allen Modulen
+    Shows the short description of a function out of all modules installed
 .EXAMPLE
     PS C:> Show-CmdletOfTheDay 'NetTCPIP'
-    Es werden nur Functions bzw. CmdLets des Moduls 'NetTCPIP' geliefrt (z.B. GetNetIPAdress)
+    Only functions of the addressed module 'NetTCPIP' are candidates to be selected (e.g. GetNetIPAdress)
 .EXAMPLE
     PS C:> Show-CmdletOfTheDay -Module 'NetTCPIP','DnsClient' -CommandType 'Cmdlet'
-    Es werden ausschließlich Commandlets geliefert (in diesem Beispiel kann nur "Resolve-DnsName" als Ergebnis kommen)
+    Returns cmdlets of the selected modules only  (e.g. "Resolve-DnsName" will be the only result)
 .NOTES
-    Original https://gallery.technet.microsoft.com/scriptcenter/Powershell-Cmdlet-of-the-ac60c293
-
+    The original function was published at https://gallery.technet.microsoft.com/scriptcenter/Powershell-Cmdlet-of-the-ac60c293
+    This version includes some enhancements and error corrections
 #>
 Function Show-CmdletOfTheDay
 {
