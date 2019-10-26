@@ -48,9 +48,6 @@ task CreateDocs {
     New-MarkdownHelp -Module $nameModule -OutputFolder $dirDocs
     Write-Verbose "Update-MarkdownHelp -Path $dirDocs"   
     Update-MarkdownHelp -Path $dirDocs
-    Write-Verbose "ConvertTo-DokuWiki -Path $dirDocs -OutPath $dirDokuWiki -TocHandling 'Wolle'"   
-    ConvertTo-DokuWiki -Path $dirDocs -OutPath $dirDokuWiki -TocHandling 'Wolle'
-    Get-Content (Join-Path $dirDokuWiki "*.md") -Exclude "$nameModule.md" | Out-File -FilePath (Join-Path $dirDokuWiki "all.txt")
 } -description "Creates markdown help files and Dokuwiki style files"
 
 task Build -depends Clean {
