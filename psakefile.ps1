@@ -38,7 +38,7 @@ task Clean {
 
 task CreateDocs {
     Remove-Module -Name $nameModule -Force -ErrorAction SilentlyContinue
-    Import-Module (Join-Path -Path $dirModuleHome -ChildPath "$nameModule.psd1") -Force
+    Import-Module (Join-Path -Path $dirModuleHome -ChildPath "$nameModule.psm1") -Force
     Get-Command -Module $nameModule
     if (!(Test-Path -Path $dirDocs)) {
         New-Item -Path $dirDocs -ItemType Directory | Out-Null

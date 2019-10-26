@@ -69,7 +69,7 @@ Description = 'Tools fuer uns und euch'
 # NestedModules = @()
 
 # Aus diesem Modul zu exportierende Funktionen. Um optimale Leistung zu erzielen, verwenden Sie keine Platzhalter und l�schen den Eintrag nicht. Verwenden Sie ein leeres Array, wenn keine zu exportierenden Funktionen vorhanden sind.
-FunctionsToExport = 'Get-IsaAdminCredential'
+FunctionsToExport = @()
 
 # Aus diesem Modul zu exportierende Cmdlets. Um optimale Leistung zu erzielen, verwenden Sie keine Platzhalter und l�schen den Eintrag nicht. Verwenden Sie ein leeres Array, wenn keine zu exportierenden Cmdlets vorhanden sind.
 CmdletsToExport = @()
