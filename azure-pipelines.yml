@@ -13,17 +13,19 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- powershell: 'Install-Module -Name Pester -Force -SkipPublisherCheck'
-  displayName: 'Install Pester'
-
 - powershell: './CI/InstallWindowsPowershell.ps1'
   displayName: 'Install Windows Powershell'
+
+- powershell: |
+    Install-Module -Name Pester -Force -SkipPublisherCheck
+    Install-Module PSScriptanalyzer
+  displayName: 'Install Powershell modules'
 
 - powershell: 'Invoke-Pester'
   displayName: 'Run Pester Tests'
 
 - powershell: 'Invoke-ScriptAnalyzer -Path ./DanTools -Recurse'
-  displayName: 'Rund Scriptanalyzer'
+  displayName: 'Run Scriptanalyzer'
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
