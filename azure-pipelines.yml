@@ -22,6 +22,9 @@ steps:
 - powershell: 'Invoke-Pester'
   displayName: 'Run Pester Tests'
 
+- powershell: 'Invoke-ScriptAnalyzer -Path ./DanTools -Recurse'
+  displayName: 'Rund Scriptanalyzer'
+
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
