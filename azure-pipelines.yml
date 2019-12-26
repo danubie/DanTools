@@ -14,16 +14,13 @@ steps:
   displayName: 'Run a one-line script'
 
 - powershell: 'Install-Module -Name Pester -Force -SkipPublisherCheck'
-  displayName: 'Update Pester'
-
-- powershell: 'Get-ChildItem . -recurse'
-  displayName: 'Show what in there'
+  displayName: 'Install Pester'
 
 - powershell: './CI/InstallWindowsPowershell.ps1'
   displayName: 'Install Windows Powershell'
 
 - powershell: 'Invoke-Pester'
-  displayName: 'Run Tests'
+  displayName: 'Run Pester Tests'
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
