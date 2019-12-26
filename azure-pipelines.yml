@@ -15,7 +15,10 @@ steps:
 
 - powershell: 'Install-Module -Name Pester -Force -SkipPublisherCheck'
   displayName: 'Update Pester'
-  
+
+- powershell: './CI/InstallWindowsPowershell.ps1'
+  displayName: 'Install Windows Powershell'
+
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
