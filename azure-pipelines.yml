@@ -17,7 +17,7 @@ steps:
   displayName: 'Update Pester'
 
 - powershell: 'get-item . -recurse'
-  displayName: 'Show what's in there'
+  displayName: 'Show what in there'
 
 - powershell: './CI/InstallWindowsPowershell.ps1'
   displayName: 'Install Windows Powershell'
