@@ -18,7 +18,7 @@ steps:
 
 - powershell: |
     Install-Module -Name Pester -Force -SkipPublisherCheck
-    Install-Module PSScriptanalyzer
+    Install-Module PSScriptanalyzer -Force
   displayName: 'Install Powershell modules'
 
 - powershell: 'Invoke-Pester'
