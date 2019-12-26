@@ -22,6 +22,9 @@ steps:
 - powershell: './CI/InstallWindowsPowershell.ps1'
   displayName: 'Install Windows Powershell'
 
+- powershell: 'Invoke-Pester'
+  displayName: 'Run Tests'
+
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
