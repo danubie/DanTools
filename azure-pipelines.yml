@@ -16,7 +16,7 @@ steps:
 - powershell: 'Install-Module -Name Pester -Force -SkipPublisherCheck'
   displayName: 'Update Pester'
 
-- powershell: 'get-item . -recurse'
+- powershell: 'Get-ChildItem . -recurse'
   displayName: 'Show what in there'
 
 - powershell: './CI/InstallWindowsPowershell.ps1'
