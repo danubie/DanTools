@@ -43,7 +43,7 @@ jobs:
               output_level       = "diagnostic"
               report_name        = "module_tests"
               report_title       = "My Module Tests"
-              github_token       = ${{ secrets.GITHUB_TOKEN }}
+              github_token       = "---"
           }
 
           $test_results_dir = Join-Path $PWD _TMP
