@@ -1,22 +1,23 @@
 Remove-Module -Name DanTools -Force -ErrorAction SilentlyContinue
 Import-Module $PSScriptRoot/../../DanTools/DanTools.psm1
 
-$dbUserList = @(
-    [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'DOMAIN\User11';     AuthenticationType = 'Windows'   }
-    [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'DOMAIN\User12';     AuthenticationType = 'Windows'   }
-    [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'sqluser11';         AuthenticationType = 'SQL'   }
-    [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'sqluser12';         AuthenticationType = 'SQL'   }
-    [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'DOMAIN\User13';     AuthenticationType = 'Windows'   }
-    #
-    [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db2';       Login = 'DOMAIN\User11';     AuthenticationType = 'Windows'   }
-    [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db2';       Login = 'DOMAIN\User21';     AuthenticationType = 'Windows'   }
-    [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db2';       Login = 'DOMAIN\User22';     AuthenticationType = 'Windows'   }
-    [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db2';       Login = 'sqluser21';         AuthenticationType = 'SQL'   }
-    #
-    [PSCustomObject]@{  InstanceName = 'Instance2';     Database = 'db3';       Login = 'DOMAIN\User11';     AuthenticationType = 'Windows'   }
-)
-$dbUserSingle =  [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'DOMAIN\User11';     AuthenticationType = 'Windows'   }
-
+BeforeAll {
+    $dbUserList = @(
+        [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'DOMAIN\User11';     AuthenticationType = 'Windows'   }
+        [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'DOMAIN\User12';     AuthenticationType = 'Windows'   }
+        [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'sqluser11';         AuthenticationType = 'SQL'   }
+        [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'sqluser12';         AuthenticationType = 'SQL'   }
+        [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'DOMAIN\User13';     AuthenticationType = 'Windows'   }
+        #
+        [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db2';       Login = 'DOMAIN\User11';     AuthenticationType = 'Windows'   }
+        [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db2';       Login = 'DOMAIN\User21';     AuthenticationType = 'Windows'   }
+        [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db2';       Login = 'DOMAIN\User22';     AuthenticationType = 'Windows'   }
+        [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db2';       Login = 'sqluser21';         AuthenticationType = 'SQL'   }
+        #
+        [PSCustomObject]@{  InstanceName = 'Instance2';     Database = 'db3';       Login = 'DOMAIN\User11';     AuthenticationType = 'Windows'   }
+    )
+    $dbUserSingle =  [PSCustomObject]@{  InstanceName = 'Instance1';     Database = 'db1';       Login = 'DOMAIN\User11';     AuthenticationType = 'Windows'   }    
+}
 Describe 'Test-IsaDatabaseCredentialDefinition@DB: ' {
     Context "Ich verwenden genau einen DBUser" {
         It "Check alle Attribute vorhanden" {
