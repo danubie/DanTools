@@ -9,14 +9,6 @@ jobs:
       - name: test module
         shell: pwsh
         id: test_module
-        with:
-          include_paths: tests,../Tests
-          exclude_paths: tests/powershell1,tests/powershell2
-          exclude_tags: skip_ci
-          report_name: module_tests
-          report_title: My Module Tests
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          output_level: diagnostic
         run: |
           #!/usr/bin/env pwsh
 
@@ -45,21 +37,13 @@ jobs:
 
 
           $inputs = @{
-              test_results_path  = Get-ActionInput test_results_path
-              full_names_filters = Get-ActionInput full_names_filters
-              include_paths      = Get-ActionInput include_paths
-              exclude_paths      = Get-ActionInput exclude_paths
-              include_tags       = Get-ActionInput include_tags
-              exclude_tags       = Get-ActionInput exclude_tags
-              output_level       = Get-ActionInput output_level
-              report_name        = Get-ActionInput report_name
-              report_title       = Get-ActionInput report_title
-              github_token       = Get-ActionInput github_token -Required
-              skip_check_run     = Get-ActionInput skip_check_run
-              gist_name          = Get-ActionInput gist_name
-              gist_token         = Get-ActionInput gist_token
-              gist_badge_label   = Get-ActionInput gist_badge_label
-              gist_badge_message = Get-ActionInput gist_badge_message
+              include_paths      = "tests,../Tests"
+              exclude_paths      = "tests/powershell1,tests/powershell2"
+              exclude_tags       = "skip_ci"
+              output_level       = "diagnostic"
+              report_name        = "module_tests"
+              report_title       = "My Module Tests"
+              github_token       = ${{ secrets.GITHUB_TOKEN }}
           }
 
           $test_results_dir = Join-Path $PWD _TMP
@@ -84,6 +68,7 @@ jobs:
               $exclude_paths      = splitListInput $inputs.exclude_paths
               $include_tags       = splitListInput $inputs.include_tags
               $exclude_tags       = splitListInput $inputs.exclude_tags
+              $output_level       = $inputs.output_level
 
               Write-ActionInfo "Running Pester tests with following:"
               Write-ActionInfo "  * realtive to PWD: $PWD"
