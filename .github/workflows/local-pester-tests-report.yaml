@@ -40,7 +40,7 @@ jobs:
 
 
           $inputs = @{
-              include_paths      = "tests,../Tests"
+              include_paths      = "tests,Tests,DanTools/tests"
               exclude_paths      = "tests/powershell1,tests/powershell2"
               exclude_tags       = "skip_ci"
               output_level       = "diagnostic"
