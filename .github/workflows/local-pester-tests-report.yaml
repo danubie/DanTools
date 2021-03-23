@@ -129,6 +129,13 @@ jobs:
               $error_clixml_path = ''
               $result_clixml_path = Join-Path $test_results_dir pester-result.xml
 
+              ## DEBUG: Checkout current dir, content of config, find alls *.ps1 files
+              Write-ActionInfo "  curr dir = [$(Get-Location)]"
+              Write-ActionInfo "  include-path = [$($pesterConfig.Run.Path)]"
+              $files = Get-ChildItem . -Name *.ps1 -Recurse
+              $x = Get-ChildItem . -Name *.ps1 -Recurse
+              $x | ForEach-Object { Write-ActionInfo "  file: $($_.tostring())" }
+
               $script:pesterResult = Invoke-Pester -Configuration $pesterConfig -ErrorVariable $pesterError
               if ($pesterError) {
                   Write-ActionWarning "Pester invocation produced error:"
