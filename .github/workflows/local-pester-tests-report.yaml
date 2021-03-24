@@ -1,4 +1,4 @@
-name: pester-tests-report
+name: local-pester-tests-report
 
 on: push
   
@@ -45,7 +45,7 @@ jobs:
               output_level       = "detailed"
               report_name        = "module_tests"
               report_title       = "My Module Tests"
-              github_token       = "---"
+              github_token       = ${{secrets.GITHUB_TOKEN}}
           }
 
           $test_results_dir = Join-Path $PWD _TMP
@@ -262,6 +262,7 @@ jobs:
                       text    = $reportData
                   }
               }
+              Write-ActionError ($bdy | ConvertTo-Json)
               Invoke-WebRequest -Headers $hdr $url -Method Post -Body ($bdy | ConvertTo-Json)
           }
 
