@@ -42,7 +42,6 @@ jobs:
           $inputs = @{
               include_paths      = "tests,Tests,DanTools/tests"
               exclude_tags       = "skip_ci"
-              output_level       = "detailed"
               report_name        = "module_tests"
               report_title       = "My Module Tests"
               github_token       = ${{secrets.GITHUB_TOKEN}}
@@ -262,6 +261,7 @@ jobs:
                       text    = $reportData
                   }
               }
+              Write-ActionInfo "Bdy Json [($bdy | ConvertTo-Json)] "
               Write-ActionError ($bdy | ConvertTo-Json)
               Invoke-WebRequest -Headers $hdr $url -Method Post -Body ($bdy | ConvertTo-Json)
           }
