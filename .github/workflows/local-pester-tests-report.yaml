@@ -12,6 +12,8 @@ jobs:
       - name: test module
         shell: pwsh
         id: test_module
+        env: 
+          GITHUB__TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           #!/usr/bin/env pwsh
 
@@ -44,7 +46,7 @@ jobs:
               exclude_tags       = "skip_ci"
               report_name        = "module_tests"
               report_title       = "My Module Tests"
-              github_token       = ${{secrets.GITHUB_TOKEN}}
+              github_token       = $ENV:GITHUB_TOKEN
           }
 
           $test_results_dir = Join-Path $PWD _TMP
