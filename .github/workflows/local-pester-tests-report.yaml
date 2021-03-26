@@ -36,7 +36,6 @@ jobs:
           Import-Module Pester -Force
 
           Write-ActionInfo "Running from [$($PSScriptRoot)]"
-          Get-ChildItem -Path '/home/runner/work/Dantools'
 
           function splitListInput { $args[0] -split ',' | % { $_.Trim() } }
           function writeListInput { $args[0] | % { Write-ActionInfo "    - $_" } }
